@@ -53,33 +53,21 @@ def get_producto(id):
 
 def update_producto(id):
     producto = Producto.query.get_or_404(id)
-    data = request.get_json()
 
-    nombre_producto = data.get('nombre_prod')
-    marca_producto = data.get('marca_prod')
-    modelo_producto = data.get('modelo_prod')
-    precio_producto = data.get('precio_prod')
-    disponibilidad = data.get('disponibilidad')
-    stock_producto = data.get('stock_prod')
+    nombre_producto = request.json.get('nombre_producto', producto.nombre_producto)
+    marca_producto = request.json.get('marca_producto', producto.marca_producto)
+    modelo_producto = request.json.get('modelo_producto', producto.modelo_producto)
+    precio_producto = request.json.get('precio_producto', producto.precio_producto)
+    disponibilidad = request.json.get('disponibilidad', producto.disponibilidad)
+    stock_producto = request.json.get('stock_producto', producto.stock_producto)
 
-    if nombre_producto:
-        producto.nombre_prod = nombre_producto
-
-    if marca_producto:
-        producto.marca_prod = marca_producto
-
-    if modelo_producto:
-        producto.modelo_prod = modelo_producto
-
-    if precio_producto:
-        producto.precio_prod = precio_producto
-
-    if disponibilidad:
-        producto.disponibilidad = disponibilidad
-
-    if stock_producto:
-        producto.stock_prod = stock_producto
-
+    producto.nombre_producto = nombre_producto
+    producto.marca_producto = marca_producto
+    producto.modelo_producto = modelo_producto
+    producto.precio_producto = precio_producto
+    producto.disponibilidad = disponibilidad
+    producto.stock_producto = stock_producto
+    
     db.session.commit()
     return producto_schema.jsonify(producto)
 
